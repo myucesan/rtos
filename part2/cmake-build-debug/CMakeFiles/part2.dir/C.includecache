@@ -9,8 +9,18 @@
 /home/myucesan/CLionProjects/rtos/part2/main.c
 stdio.h
 -
+stdlib.h
+-
 pthread.h
 -
+signal.h
+-
+sys/stat.h
+-
 mqueue.h
+-
+fcntl.h
+-
+unistd.h
 -
 
