@@ -1,4 +1,7 @@
-/*
+//
+// Created by myucesan on 10/18/19.
+//
+/* 1a
  * There are four tasks below, which are to become pthreads. This four tasks will be scheduled with the Round Robin scheduling
  * policy. The POSIX api will be used for this.
  * Resources:
@@ -8,6 +11,7 @@
  *
  * // FOR README:
  * 1. To use pthreads on ubuntu add target_link_library in cmakelists.txt
+ * 2. https://stackoverflow.com/questions/40822000/c-printf-not-printing-inside-of-a-thread
  *
  * This code has to be tested for correctness: NOT DONE YET
  */
@@ -35,7 +39,7 @@ void* taskOne() {
 
 void* taskTwo() {
     int i, j, m, n;
-   
+
     while(1) {
         for(i=0;i<5;i++) {
             for(j=1;j<=8;j++) {
@@ -98,6 +102,11 @@ int main() {
     pthread_create(&task2, &tattr, taskTwo, NULL);
     pthread_create(&task3, &tattr, taskThree, NULL);
     pthread_create(&task4, &tattr, taskFour, NULL);
+
+    pthread_join(task1, NULL);
+    pthread_join(task2, NULL);
+    pthread_join(task3, NULL);
+    pthread_join(task4, NULL);
     printf("Hello, World!\n");
     return 0;
 }

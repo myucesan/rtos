@@ -78,6 +78,15 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="/home/myucesan/CLionProjects/rtos/part1/1a.c">
+			<Option target="part1"/>
+		</Unit>
+		<Unit filename="/home/myucesan/CLionProjects/rtos/part1/1b.c">
+			<Option target="part1"/>
+		</Unit>
+		<Unit filename="/home/myucesan/CLionProjects/rtos/part1/1c.c">
+			<Option target="part1"/>
+		</Unit>
 		<Unit filename="/home/myucesan/CLionProjects/rtos/part1/main.c">
 			<Option target="part1"/>
 		</Unit>

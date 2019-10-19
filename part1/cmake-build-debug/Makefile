@@ -123,6 +123,87 @@ part1/fast:
 	$(MAKE) -f CMakeFiles/part1.dir/build.make CMakeFiles/part1.dir/build
 .PHONY : part1/fast
 
+1a.o: 1a.c.o
+
+.PHONY : 1a.o
+
+# target to build an object file
+1a.c.o:
+	$(MAKE) -f CMakeFiles/part1.dir/build.make CMakeFiles/part1.dir/1a.c.o
+.PHONY : 1a.c.o
+
+1a.i: 1a.c.i
+
+.PHONY : 1a.i
+
+# target to preprocess a source file
+1a.c.i:
+	$(MAKE) -f CMakeFiles/part1.dir/build.make CMakeFiles/part1.dir/1a.c.i
+.PHONY : 1a.c.i
+
+1a.s: 1a.c.s
+
+.PHONY : 1a.s
+
+# target to generate assembly for a file
+1a.c.s:
+	$(MAKE) -f CMakeFiles/part1.dir/build.make CMakeFiles/part1.dir/1a.c.s
+.PHONY : 1a.c.s
+
+1b.o: 1b.c.o
+
+.PHONY : 1b.o
+
+# target to build an object file
+1b.c.o:
+	$(MAKE) -f CMakeFiles/part1.dir/build.make CMakeFiles/part1.dir/1b.c.o
+.PHONY : 1b.c.o
+
+1b.i: 1b.c.i
+
+.PHONY : 1b.i
+
+# target to preprocess a source file
+1b.c.i:
+	$(MAKE) -f CMakeFiles/part1.dir/build.make CMakeFiles/part1.dir/1b.c.i
+.PHONY : 1b.c.i
+
+1b.s: 1b.c.s
+
+.PHONY : 1b.s
+
+# target to generate assembly for a file
+1b.c.s:
+	$(MAKE) -f CMakeFiles/part1.dir/build.make CMakeFiles/part1.dir/1b.c.s
+.PHONY : 1b.c.s
+
+1c.o: 1c.c.o
+
+.PHONY : 1c.o
+
+# target to build an object file
+1c.c.o:
+	$(MAKE) -f CMakeFiles/part1.dir/build.make CMakeFiles/part1.dir/1c.c.o
+.PHONY : 1c.c.o
+
+1c.i: 1c.c.i
+
+.PHONY : 1c.i
+
+# target to preprocess a source file
+1c.c.i:
+	$(MAKE) -f CMakeFiles/part1.dir/build.make CMakeFiles/part1.dir/1c.c.i
+.PHONY : 1c.c.i
+
+1c.s: 1c.c.s
+
+.PHONY : 1c.s
+
+# target to generate assembly for a file
+1c.c.s:
+	$(MAKE) -f CMakeFiles/part1.dir/build.make CMakeFiles/part1.dir/1c.c.s
+.PHONY : 1c.c.s
+
 main.o: main.c.o
 
 .PHONY : main.o
@@ -159,6 +240,15 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... part1"
 	@echo "... edit_cache"
+	@echo "... 1a.o"
+	@echo "... 1a.i"
+	@echo "... 1a.s"
+	@echo "... 1b.o"
+	@echo "... 1b.i"
+	@echo "... 1b.s"
+	@echo "... 1c.o"
+	@echo "... 1c.i"
+	@echo "... 1c.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
