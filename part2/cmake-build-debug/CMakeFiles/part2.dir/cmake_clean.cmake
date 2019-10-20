@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/part2.dir/2a.c.o"
   "CMakeFiles/part2.dir/main.c.o"
   "part2"
   "part2.pdb"

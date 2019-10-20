@@ -15,12 +15,10 @@ pthread.h
 -
 signal.h
 -
-sys/stat.h
--
-mqueue.h
--
-fcntl.h
--
 unistd.h
+-
+string.h
+-
+sys/wait.h
 -
 

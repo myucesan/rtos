@@ -1,9 +1,9 @@
-/*
- * Sender thread sends 50 integers to receiver thread using a POSIX message queue.
+/* 2b
+ * Sender thread sends 50 integers to receiver thread using a posix pipe
  * target_link_library for ptrhead and rt
  * Author: Mustafa Yucesan
  * Resources:
- * https://linux.die.net/man/7/mq_overview
+ * http://man7.org/linux/man-pages/man2/pipe.2.html
  *
  *    Linking
        Programs  using  the  POSIX  message queue API must be compiled with cc
@@ -15,18 +15,12 @@
 #include <stdlib.h>
 #include <pthread.h>
 #include <signal.h>
-#include <sys/stat.h>
-#include <mqueue.h>
-#include <fcntl.h>
 #include <unistd.h>
-
-#define mqbuffer "/myqueue"
+#include <string.h>
+#include <sys/wait.h>
 
 pthread_t thread1;
 pthread_t thread2;
-
-static struct mq_attr my_mq_attr;
-static mqd_t mesq;
 
 static unsigned int counter;
 
@@ -43,8 +37,6 @@ void sig_handler(int signum) {
     pthread_cancel(thread1);
     pthread_cancel(thread2);
 
-    mq_close(mesq);
-    mq_unlink(mqbuffer);
 
     exit(0);
 }
@@ -52,19 +44,8 @@ void sig_handler(int signum) {
 int main(void) {
     pthread_attr_t attr;
     int status;
-
+    char* message = "HELLOoooooooooo";
     signal(SIGINT, sig_handler);
-
-    counter = 0;
-
-    my_mq_attr.mq_maxmsg = 10;
-    my_mq_attr.mq_msgsize = sizeof(counter);
-
-    mesq = mq_open(mqbuffer, \
-                    O_CREAT | O_RDWR | O_NONBLOCK, \
-                    0666, \
-                    &my_mq_attr);
-
 
     pthread_attr_init(&attr);
     pthread_attr_setstacksize(&attr, 1024*1024);
@@ -84,7 +65,48 @@ int main(void) {
     pthread_join(thread1, NULL);
     pthread_join(thread2, NULL);
 
-    sig_handler(SIGINT);
+//    sig_handler(SIGINT);
+
+    counter = 0;
+
+    // pipe code here start
+    int pipefd[2]; // used to return two file descriptors
+    pid_t cpid;
+    char buf;
+
+    if(pipe(pipefd) == -1) {
+        perror("pipe");
+        exit(EXIT_FAILURE);
+    }
+
+    cpid = fork(); // creates child process which inherits same file descriptors, close all fd that you don't need for the pipe
+    if(cpid == -1) {
+        perror("fork");
+        exit(EXIT_FAILURE);
+    }
+
+    if(cpid == 0) {
+        close(pipefd[1]); // pipefd[0] is read end of the pipe
+
+        while(read(pipefd[0], &buf, 1) > 0) {
+            write(STDOUT_FILENO, &buf, 1);
+        }
+        write(STDOUT_FILENO, "\n", 1);
+        close(pipefd[0]); // close write end of pipe
+        _exit(EXIT_SUCCESS);
+    } else {
+        printf("%d \n", cpid);
+        close(pipefd[0]); // close unused read end
+        write(pipefd[1], message, strlen(message));
+        close(pipefd[1]); // EOF, all written
+        wait(NULL);
+        exit(EXIT_SUCCESS);
+    }
+
+
+    // pipe code hereend
+
+
 
     return 0;
 }
@@ -97,7 +119,7 @@ void sender(void) {
 
 
     while(1) {
-        status = mq_send(mesq, (const char*)&counter, sizeof(counter), 1);
+//        status = mq_send(mesq, (const char*)&counter, sizeof(counter), 1);
         usleep(timeout_in_nanoseconds);
     }
 }
@@ -112,8 +134,8 @@ void receiver(void) {
 
 
     while(1) {
-        status = mq_receive(mesq, (char*)&recv_counter, \
-                            sizeof(recv_counter), NULL);
+//        status = mq_receive(mesq, (char*)&recv_counter, \
+//                            sizeof(recv_counter), NULL);
 
         if (status > 0) {
             printf("Received message from sender: %d\n", recv_counter);
