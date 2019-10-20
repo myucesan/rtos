@@ -41,23 +41,27 @@ void sig_handler(int signum) {
     exit(0);
 }
 
+int pipefd[2]; // used to return two file descriptors
+
 int main(void) {
-    pthread_attr_t attr;
     int status;
-    char* message = "HELLOoooooooooo";
+    counter = 0;
     signal(SIGINT, sig_handler);
 
-    pthread_attr_init(&attr);
-    pthread_attr_setstacksize(&attr, 1024*1024);
+    if(pipe(pipefd) == -1) {
+        perror("pipe");
+        exit(EXIT_FAILURE);
+    }
+
 
     printf("Creating sender...\n");
-    status = pthread_create(&thread1, &attr, (void*) &sender, NULL);
+    status = pthread_create(&thread1, NULL, (void*) &sender, NULL);
     if (status != 0) {
         printf("Failed to create thread1 with status = %d\n", status);
     }
 
     printf("Creating receiver...\n");
-    status = pthread_create(&thread2, &attr, (void*) &receiver, NULL);
+    status = pthread_create(&thread2, NULL, (void*) &receiver, NULL);
     if (status != 0) {
         printf("Failed to create thread2 with status = %d\n", status);
     }
@@ -65,89 +69,47 @@ int main(void) {
     pthread_join(thread1, NULL);
     pthread_join(thread2, NULL);
 
-//    sig_handler(SIGINT);
-
-    counter = 0;
-
-    // pipe code here start
-    int pipefd[2]; // used to return two file descriptors
-    pid_t cpid;
-    char buf;
-
-    if(pipe(pipefd) == -1) {
-        perror("pipe");
-        exit(EXIT_FAILURE);
-    }
-
-    cpid = fork(); // creates child process which inherits same file descriptors, close all fd that you don't need for the pipe
-    if(cpid == -1) {
-        perror("fork");
-        exit(EXIT_FAILURE);
-    }
-
-    if(cpid == 0) {
-        close(pipefd[1]); // pipefd[0] is read end of the pipe
-
-        while(read(pipefd[0], &buf, 1) > 0) {
-            write(STDOUT_FILENO, &buf, 1);
-        }
-        write(STDOUT_FILENO, "\n", 1);
-        close(pipefd[0]); // close write end of pipe
-        _exit(EXIT_SUCCESS);
-    } else {
-        printf("%d \n", cpid);
-        close(pipefd[0]); // close unused read end
-        write(pipefd[1], message, strlen(message));
-        close(pipefd[1]); // EOF, all written
-        wait(NULL);
-        exit(EXIT_SUCCESS);
-    }
-
-
-    // pipe code hereend
-
+    sig_handler(SIGINT);
 
 
     return 0;
 }
 
 void sender(void) {
-    unsigned int timeout_in_nanoseconds;
-    int status;
+    int     result;
+    int     count = 0;
 
-    timeout_in_nanoseconds = 1000000;
+    while(1){
 
+        result = write (pipefd[1], &count,1);
+        if (result != 1){
+            perror ("send");
+            exit (2);
+        }
 
-    while(1) {
-//        status = mq_send(mesq, (const char*)&counter, sizeof(counter), 1);
-        usleep(timeout_in_nanoseconds);
+        printf ("sender: %d\n", ++count);
+
+        if(count == 50) {
+            sig_handler(SIGINT);
+        }
+
     }
 }
 
 
 void receiver(void) {
-    unsigned int exec_period_usecs;
-    int status;
-    int recv_counter;
+    int     count = 0;
+    sleep (25);
 
-    exec_period_usecs = 10000; /*in micro-seconds*/
+    while(1){
+        char    ch;
+        int     result;
 
-
-    while(1) {
-//        status = mq_receive(mesq, (char*)&recv_counter, \
-//                            sizeof(recv_counter), NULL);
-
-        if (status > 0) {
-            printf("Received message from sender: %d\n", recv_counter);
-            counter += 1;
-        }
-
-        if(counter == 50) {
-            printf("So that was 50 integers! \n");
-            sig_handler(SIGINT);
-        }
-
-        usleep(exec_period_usecs);
+        result = read (pipefd[0],&ch,1);
+        if (result != 1) {
+            perror("receive");
+            exit(3);
+        } printf ("Receiver: %d %c\n",++count,ch);
     }
 }
 

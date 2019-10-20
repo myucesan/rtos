@@ -108,11 +108,11 @@
 //
 //
 //void receiver(void) {
-//    unsigned int exec_period_usecs;
+//    unsigned int timeout_in_nanoseconds;
 //    int status;
 //    int recv_counter;
 //
-//    exec_period_usecs = 10000; /*in micro-seconds*/
+//    exec_period_usecs = 10000;
 //
 //
 //    while(1) {
@@ -129,7 +129,7 @@
 //            sig_handler(SIGINT);
 //        }
 //
-//        usleep(exec_period_usecs);
+//        usleep(timeout_in_nanoseconds);
 //    }
 //}
 //
