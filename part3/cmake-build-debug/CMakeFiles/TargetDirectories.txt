@@ -1,0 +1,3 @@
+/home/myucesan/CLionProjects/rtos/part3/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/myucesan/CLionProjects/rtos/part3/cmake-build-debug/CMakeFiles/part3.dir
+/home/myucesan/CLionProjects/rtos/part3/cmake-build-debug/CMakeFiles/edit_cache.dir

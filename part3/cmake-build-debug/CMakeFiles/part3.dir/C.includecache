@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/myucesan/CLionProjects/rtos/part3/main.c
+stdio.h
+-
+pthread.h
+-
+semaphore.h
+-
+signal.h
+-
+stdlib.h
+-
+unistd.h
+-
+
