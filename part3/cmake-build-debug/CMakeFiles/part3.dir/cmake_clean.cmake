@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/part3.dir/3a.c.o"
   "CMakeFiles/part3.dir/main.c.o"
   "part3"
   "part3.pdb"

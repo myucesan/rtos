@@ -1,11 +1,11 @@
 /*
- * 3a: A C-program will be written that will create a binary semaphore and two pthreads that use Round-Robin Scheduling. In both threads a critical section belonging to a binary
+ * 3b: A C-program will be written that will create a mutex and two pthreads that use Round-Robin Scheduling. In both threads a critical section belonging to a binary
  * sempahore. In critical section 1 (thread 1) there has to be printed "Section 1" every 1 second for 5 times. In critical section 2 (thread 2) it has to print
  * "section 2" every 1 second for 5 times.
  *
  * Resources:
  * https://www.tutorialspoint.com/mutex-vs-semaphore
- * http://www.vishalchovatiya.com/binary-semaphore-example-between-threads-in-c/
+ * https://www.geeksforgeeks.org/mutex-lock-for-linux-thread-synchronization/
  */
 #include <stdio.h>
 #include <pthread.h>
@@ -16,6 +16,7 @@
 
 pthread_t thread1;
 pthread_t thread2;
+pthread_mutex_t lock;
 sem_t sem;
 
 void sender(void *ptr);
@@ -37,6 +38,12 @@ void sig_handler(int signum) {
 int main() {
     char *cs1 = "Section 1";
     char *cs2 = "Section 2";
+
+    if (pthread_mutex_init(&lock, NULL) != 0)
+    {
+        printf("\n mutex init has failed\n");
+        return 1;
+    }
     sem_init(&sem, 0, 0);
     pthread_attr_t tattr;
     pthread_attr_setschedpolicy(&tattr, SCHED_RR); // change schedule police to round robin
@@ -58,21 +65,18 @@ int main() {
     pthread_join(thread1, NULL);
     pthread_join(thread2, NULL);
 
-    sem_destroy(&sem);
+    pthread_mutex_destroy(&lock);
     return 0;
 }
 
 void sender(void *ptr) {
+
    sleep(1);
 
     while(1){
-//        sprintf(ptrSender, "%d", counter);
-//        sem_wait(&sem);
+        pthread_mutex_lock(&lock);
         printf ("%s \n", (char *)ptr);
-        sem_post(&sem);
-
-
-
+        pthread_mutex_unlock(&lock);
     }
 }
 
@@ -81,9 +85,8 @@ void receiver(void *ptr) {
     sleep (1);
 
     while(1){
-        sem_wait(&sem);
+        pthread_mutex_lock(&lock);
         printf("%s \n", (char *)ptr);
-        sem_post(&sem);
-
+        pthread_mutex_unlock(&lock);
     }
 }

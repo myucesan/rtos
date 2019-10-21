@@ -6,6 +6,8 @@
 
 #IncludeRegexTransform: 
 
+/home/myucesan/CLionProjects/rtos/part3/3a.c
+
 /home/myucesan/CLionProjects/rtos/part3/main.c
 stdio.h
 -

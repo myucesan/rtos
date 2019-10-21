@@ -123,6 +123,33 @@ part3/fast:
 	$(MAKE) -f CMakeFiles/part3.dir/build.make CMakeFiles/part3.dir/build
 .PHONY : part3/fast
 
+3a.o: 3a.c.o
+
+.PHONY : 3a.o
+
+# target to build an object file
+3a.c.o:
+	$(MAKE) -f CMakeFiles/part3.dir/build.make CMakeFiles/part3.dir/3a.c.o
+.PHONY : 3a.c.o
+
+3a.i: 3a.c.i
+
+.PHONY : 3a.i
+
+# target to preprocess a source file
+3a.c.i:
+	$(MAKE) -f CMakeFiles/part3.dir/build.make CMakeFiles/part3.dir/3a.c.i
+.PHONY : 3a.c.i
+
+3a.s: 3a.c.s
+
+.PHONY : 3a.s
+
+# target to generate assembly for a file
+3a.c.s:
+	$(MAKE) -f CMakeFiles/part3.dir/build.make CMakeFiles/part3.dir/3a.c.s
+.PHONY : 3a.c.s
+
 main.o: main.c.o
 
 .PHONY : main.o
@@ -159,6 +186,9 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... part3"
 	@echo "... edit_cache"
+	@echo "... 3a.o"
+	@echo "... 3a.i"
+	@echo "... 3a.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

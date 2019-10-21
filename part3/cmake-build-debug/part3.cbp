@@ -78,6 +78,9 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="/home/myucesan/CLionProjects/rtos/part3/3a.c">
+			<Option target="part3"/>
+		</Unit>
 		<Unit filename="/home/myucesan/CLionProjects/rtos/part3/main.c">
 			<Option target="part3"/>
 		</Unit>

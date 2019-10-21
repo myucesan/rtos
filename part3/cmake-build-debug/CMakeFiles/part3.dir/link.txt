@@ -1,1 +1,1 @@
-/usr/bin/cc -g   CMakeFiles/part3.dir/main.c.o  -o part3 -lpthread 
+/usr/bin/cc -g   CMakeFiles/part3.dir/main.c.o CMakeFiles/part3.dir/3a.c.o  -o part3 -lpthread 
