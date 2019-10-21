@@ -12,7 +12,7 @@
 // *    Linking
 //       Programs  using  the  POSIX  message queue API must be compiled with cc
 //       -lrt to link against the real-time library, librt.
-//
+//  TODO: refactor code, remove unneccesary things
 // */
 //
 //#include <stdio.h>
