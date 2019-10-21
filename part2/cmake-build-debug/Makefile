@@ -150,6 +150,33 @@ part2/fast:
 	$(MAKE) -f CMakeFiles/part2.dir/build.make CMakeFiles/part2.dir/2a.c.s
 .PHONY : 2a.c.s
 
+2b.o: 2b.c.o
+
+.PHONY : 2b.o
+
+# target to build an object file
+2b.c.o:
+	$(MAKE) -f CMakeFiles/part2.dir/build.make CMakeFiles/part2.dir/2b.c.o
+.PHONY : 2b.c.o
+
+2b.i: 2b.c.i
+
+.PHONY : 2b.i
+
+# target to preprocess a source file
+2b.c.i:
+	$(MAKE) -f CMakeFiles/part2.dir/build.make CMakeFiles/part2.dir/2b.c.i
+.PHONY : 2b.c.i
+
+2b.s: 2b.c.s
+
+.PHONY : 2b.s
+
+# target to generate assembly for a file
+2b.c.s:
+	$(MAKE) -f CMakeFiles/part2.dir/build.make CMakeFiles/part2.dir/2b.c.s
+.PHONY : 2b.c.s
+
 main.o: main.c.o
 
 .PHONY : main.o
@@ -189,6 +216,9 @@ help:
 	@echo "... 2a.o"
 	@echo "... 2a.i"
 	@echo "... 2a.s"
+	@echo "... 2b.o"
+	@echo "... 2b.i"
+	@echo "... 2b.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

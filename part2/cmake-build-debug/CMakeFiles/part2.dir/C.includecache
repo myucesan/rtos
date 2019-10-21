@@ -21,4 +21,20 @@ string.h
 -
 sys/wait.h
 -
+sys/shm.h
+-
+stdio.h
+-
+stdlib.h
+-
+string.h
+-
+fcntl.h
+-
+sys/shm.h
+-
+sys/stat.h
+-
+sys/mman.h
+-
 

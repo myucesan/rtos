@@ -1,9 +1,10 @@
-/* 2b
- * Sender thread sends 50 integers to receiver thread using a posix pipe
+/* 2c
+ * Sender thread sends 50 integers to receiver thread using a posix shared memory
  * target_link_library for ptrhead and rt
  * Author: Mustafa Yucesan
  * Resources:
- * http://man7.org/linux/man-pages/man2/pipe.2.html
+ * https://www.geeksforgeeks.org/posix-shared-memory-api/
+ * http://manpages.ubuntu.com/manpages/xenial/man3/shm_open.3.html
  *
  *    Linking
        Programs  using  the  POSIX  message queue API must be compiled with cc
@@ -18,10 +19,22 @@
 #include <unistd.h>
 #include <string.h>
 #include <sys/wait.h>
+#include <sys/shm.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <fcntl.h>
+#include <sys/shm.h>
+#include <sys/stat.h>
+#include <sys/mman.h>
 
 pthread_t thread1;
 pthread_t thread2;
-
+const int SIZE = 4096;
+const char* name = "T1T2";
+int shm_fd; // file descriptor for shared memory
+void* ptrSender; // pointer to shared memory object
+void* ptrReceiver;
 static unsigned int counter;
 
 void sender(void);
@@ -41,17 +54,19 @@ void sig_handler(int signum) {
     exit(0);
 }
 
-int pipefd[2]; // used to return two file descriptors
+
 
 int main(void) {
+
     int status;
     counter = 0;
     signal(SIGINT, sig_handler);
+    shm_fd = shm_open(name, O_CREAT | O_RDWR, 0666); // creating shared memory object
+    ftruncate(shm_fd, SIZE); // size configured for shared memory object
+    ptrSender = mmap(0, SIZE, PROT_WRITE, MAP_SHARED, shm_fd, 0); // memory map to shared memory object
+    ptrReceiver = mmap(0, SIZE, PROT_READ, MAP_SHARED, shm_fd, 0);
 
-    if(pipe(pipefd) == -1) {
-        perror("pipe");
-        exit(EXIT_FAILURE);
-    }
+
 
 
     printf("Creating sender...\n");
@@ -76,40 +91,29 @@ int main(void) {
 }
 
 void sender(void) {
-    int     result;
     int     count = 0;
 
     while(1){
-
-        result = write (pipefd[1], &count,1);
-        if (result != 1){
-            perror ("send");
-            exit (2);
-        }
+        sprintf(ptrSender, "%d", counter);
 
         printf ("sender: %d\n", ++count);
-
         if(count == 50) {
             sig_handler(SIGINT);
         }
+
 
     }
 }
 
 
 void receiver(void) {
-    int     count = 0;
     sleep (25);
+    int count = 0;
 
     while(1){
-        char    ch;
-        int     result;
+        count++;
+        printf ("Receiver: %d %c\n",counter);
 
-        result = read (pipefd[0],&ch,1);
-        if (result != 1) {
-            perror("receive");
-            exit(3);
-        } printf ("Receiver: %d %c\n",++count,ch);
     }
 }
 

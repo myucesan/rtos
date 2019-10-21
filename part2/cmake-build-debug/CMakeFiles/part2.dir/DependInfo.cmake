@@ -5,6 +5,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
   "/home/myucesan/CLionProjects/rtos/part2/2a.c" "/home/myucesan/CLionProjects/rtos/part2/cmake-build-debug/CMakeFiles/part2.dir/2a.c.o"
+  "/home/myucesan/CLionProjects/rtos/part2/2b.c" "/home/myucesan/CLionProjects/rtos/part2/cmake-build-debug/CMakeFiles/part2.dir/2b.c.o"
   "/home/myucesan/CLionProjects/rtos/part2/main.c" "/home/myucesan/CLionProjects/rtos/part2/cmake-build-debug/CMakeFiles/part2.dir/main.c.o"
   )
 set(CMAKE_C_COMPILER_ID "GNU")

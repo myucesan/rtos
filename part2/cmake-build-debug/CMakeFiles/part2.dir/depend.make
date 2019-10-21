@@ -3,5 +3,7 @@
 
 CMakeFiles/part2.dir/2a.c.o: ../2a.c
 
+CMakeFiles/part2.dir/2b.c.o: ../2b.c
+
 CMakeFiles/part2.dir/main.c.o: ../main.c
 
